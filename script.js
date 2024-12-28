@@ -1,19 +1,10 @@
 var slide = $("#slide");
 var overlayContainer = $("#overlay-container");
-var slideChangeInterval = 10000000;
+var slideChangeInterval = 5000;
 var currentSlideIndex = 0;
 var data;
 var scale;
-var customOverlays = {
-    0: [{
-        type: "image",
-        url: "https://media.tenor.com/YLkdR9rRQCAAAAAM/sheep-chewing.gif",
-        x: 100,
-        y: 100,
-        width: 100,
-        height: 100
-    }]
-};
+var customOverlays = {};
 
 //Get the Google Slides data from the server
 $.ajax({
@@ -56,20 +47,23 @@ function drawSlide() {
     overlayContainer.html("");
 
     if (customOverlays[currentSlideIndex]) {
-        $.each(customOverlays[currentSlideIndex], function(index, overlay) {
+        $.each(customOverlays[currentSlideIndex], function (index, overlay) {
             var overlayElement;
 
             if (overlay.type == "image") {
                 //Draw an image overlay (useful for images that can't be exported as SVG, like GIFs)
                 overlayElement = $("<img>");
                 overlayElement.attr("src", overlay.url);
-                overlayElement.width(overlay.width * scale);
-                overlayElement.height(overlay.height * scale);
-                overlayElement.css("position", "absolute");
-                overlayElement.css("left", overlay.x * scale);
-                overlayElement.css("top", overlay.y * scale);
+            } else if (overlay.type == "embed") {
+                overlayElement = $("<iframe frameborder='0'></iframe>");
+                overlayElement.attr("src", overlay.url);
             }
 
+            overlayElement.width(overlay.width * scale);
+            overlayElement.height(overlay.height * scale);
+            overlayElement.css("position", "absolute");
+            overlayElement.css("left", overlay.x * scale);
+            overlayElement.css("top", overlay.y * scale);
             overlayElement.attr("data-overlay-number", index);
             overlayContainer.append(overlayElement);
         });
@@ -90,7 +84,7 @@ function resize() {
     slide.height(data.height * scale);
 
     //Resize the overlay elements
-    overlayContainer.children().each(function(index, overlayElement) {
+    overlayContainer.children().each(function (index, overlayElement) {
         var overlayData = customOverlays[currentSlideIndex][$(overlayElement).attr("data-overlay-number")];
 
         $(overlayElement).width(overlayData.width * scale);
