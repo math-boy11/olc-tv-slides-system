@@ -1,10 +1,21 @@
-var slideContainer = $("#slide-container");
 var slide = $("#slide");
-var slideChangeInterval = 5000;
+var overlayContainer = $("#overlay-container");
+var slideChangeInterval = 10000000;
 var currentSlideIndex = 0;
 var data;
+var scale;
+var customOverlays = {
+    0: [{
+        type: "image",
+        url: "https://media.tenor.com/YLkdR9rRQCAAAAAM/sheep-chewing.gif",
+        x: 100,
+        y: 100,
+        width: 100,
+        height: 100
+    }]
+};
 
-//Get the Google Slides pdf from the server
+//Get the Google Slides data from the server
 $.ajax({
     url: "https://script.google.com/macros/s/AKfycbzGiG4PXzJbdYSFdbK0OyTA6L1CUH-Dyhd6Iw_rlF_B2vAiCBUu5Ip2v43gy4P1aKkC-w/exec",
     type: "POST",
@@ -12,7 +23,7 @@ $.ajax({
 }).done(function (slideshowData) {
     //Hide the loading text and show the slide container
     $("#loading").css("display", "none");
-    slideContainer.css("display", "initial");
+    $("#slide-container").css("display", "initial");
 
     //Assign the data as a global variable
     data = slideshowData;
@@ -38,19 +49,53 @@ $.ajax({
 
 //Function to draw the current slide onto the DOM
 function drawSlide() {
+    //Draw the slide
     slide.attr("src", data.slides[currentSlideIndex]);
+
+    //Draw the overlays
+    overlayContainer.html("");
+
+    if (customOverlays[currentSlideIndex]) {
+        $.each(customOverlays[currentSlideIndex], function(index, overlay) {
+            var overlayElement;
+
+            if (overlay.type == "image") {
+                //Draw an image overlay (useful for images that can't be exported as SVG, like GIFs)
+                overlayElement = $("<img>");
+                overlayElement.attr("src", overlay.url);
+                overlayElement.width(overlay.width * scale);
+                overlayElement.height(overlay.height * scale);
+                overlayElement.css("position", "absolute");
+                overlayElement.css("left", overlay.x * scale);
+                overlayElement.css("top", overlay.y * scale);
+            }
+
+            overlayElement.attr("data-overlay-number", index);
+            overlayContainer.append(overlayElement);
+        });
+    }
 }
 
-//Function to resize the canvas to fit the screen
+//Function to resize elements to fit the screen
 function resize() {
     //Get the window dimensions
     var windowWidth = window.innerWidth;
     var windowHeight = window.innerHeight;
 
     //Calculate the scale factor based on the window size and aspect ratio
-    var scale = Math.min(windowWidth / data.width, windowHeight / data.height);
+    scale = Math.min(windowWidth / data.width, windowHeight / data.height);
 
-    //Set the canvas width and height based on the scale
+    //Set the slide width and height based on the scale
     slide.width(data.width * scale);
     slide.height(data.height * scale);
+
+    //Resize the overlay elements
+    overlayContainer.children().each(function(index, overlayElement) {
+        var overlayData = customOverlays[currentSlideIndex][$(overlayElement).attr("data-overlay-number")];
+
+        $(overlayElement).width(overlayData.width * scale);
+        $(overlayElement).height(overlayData.height * scale);
+        $(overlayElement).css("left", overlayData.x * scale);
+        $(overlayElement).css("top", overlayData.y * scale);
+    });
 }
