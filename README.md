@@ -1,5 +1,5 @@
 # OLC TV Slides System
-This is the repository for the TV Slides system designed for Oakride Lutheran Church (OLC).
+This is the repository for the TV Slides system designed for Oakridge Lutheran Church (OLC).
 
 - [OLC TV Slides System](#olc-tv-slides-system)
   - [How it works](#how-it-works)
