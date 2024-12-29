@@ -5,24 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OLC TV Slides System</title>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <style>
-        html,
-        body {
-            margin: 0;
-            height: 100%;
-            background-color: black;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
 
-        #slide-container {
-            position: relative;
-            display: none;
-        }
-    </style>
+    <!--CSS-->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@3.2.0/dist/fullcalendar.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+
+    <!--JS-->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
 </head>
 
 <body>
@@ -33,7 +23,10 @@
 
     <h2 id="loading">Loading...</h2>
 
-    <script src="script.js"></script>
+    <div id="calendar"></div>
+
+    <script src="js/calendar.js"></script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
