@@ -45,7 +45,7 @@ The slide index (starting from 0) is the slide you want to add overlays to. It t
 The calendars are implemented using the [FullCalendar](https://fullcalendar.io/) plugin, which allows for extremly customizable and good-looking calendars. All the logic for the calendar system is handled seperatly in the ```calendar.js``` file.
 
 ## Auto refresh
-The app will refresh itself automaticlly at 1:00AM every day. This will ensure that your data is kept up-to-date hands-free. If you want to disable this functionality, simply set the ```enableAutoRefresh``` boolean in ```main.js```.
+The app will refresh itself automaticlly at 1:00am every day. This will ensure that your data is kept up-to-date hands-free. This feature can be disabled by setting the ```enableAutoRefresh``` boolean in ```main.js``` to ```false```.
 
 ## Running the app
 The app is just a simple static HTML website. Just clone the repo and open the ```index.html``` file in a web browser. It will grab the data from the server and when it's finished loading it will immediatly start cycling through the individual slides with the given time delay. Since the app is just a static website, you can deploy to many cloud services that are completly free such as [GitHub Pages](https://pages.github.com/). The main deployment on GitHub Pages can be accesed [here](https://math-boy11.github.io/olc-tv-slides-system/).

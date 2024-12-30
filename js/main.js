@@ -6,17 +6,8 @@ var currentSlideIndex = 0;
 var slidesData;
 var calendarData;
 var scale;
-var customOverlays = {
-    8: [{
-        type: "calendar",
-        calendar: "OLC Events",
-        eventColor: "#351C75",
-        x: 50,
-        y: 40,
-        width: 1340,
-        height: 730
-    }]
-};
+var enableAutoRefresh = true;
+var customOverlays = {};
 
 //Get the Google Slides data from the server
 $.ajax({
@@ -118,4 +109,23 @@ function resize() {
         $(overlayElement).css("left", overlayData.x * scale);
         $(overlayElement).css("top", overlayData.y * scale);
     });
+}
+
+//Auto-Refresh logic
+if (enableAutoRefresh) {
+    var now = new Date();
+    var reloadTime = new Date();
+    
+    //Set the reload time to 1:00am the next day
+    reloadTime.setDate(now.getDate() + 1);
+    reloadTime.setHours(1, 0, 0, 0);
+    
+    //Calculate the time difference
+    var timeToReload = reloadTime - now;
+    
+    console.log("Page will reload in " + timeToReload / 1000 + " seconds.");
+    
+    setTimeout(function() {
+        location.reload();
+    }, timeToReload);
 }
