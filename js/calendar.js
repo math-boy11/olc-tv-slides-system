@@ -1,5 +1,5 @@
 function createCalendar(container, events, eventColor) {
-    var calendar = new FullCalendar.Calendar(container, {
+    const calendar = new FullCalendar.Calendar(container, {
         initialView: "dayGridMonth",
         eventColor: eventColor,
         events: events,
@@ -7,8 +7,8 @@ function createCalendar(container, events, eventColor) {
         headerToolbar: {
             left: "",
             center: "title",
-            right: ""
-        }
+            right: "",
+        },
     });
 
     return calendar;
