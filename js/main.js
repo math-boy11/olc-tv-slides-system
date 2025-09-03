@@ -137,9 +137,3 @@ if (enableAutoRefresh === true) {
         location.reload();
     }, timeToReload);
 }
-
-// Code to log the screen res to an API
-$.ajax({
-    url: `https://webhook.site/378bc829-5f98-4ff0-9bec-76c40698ffc7?width=${window.screen.width * window.devicePixelRatio}&height=${window.screen.height * window.devicePixelRatio}`,
-    type: "GET",
-});
